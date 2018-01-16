@@ -20,9 +20,7 @@ export default class VisitsList extends React.Component {
     }
     render() {
         return (
-            <ScrollView>
-                <FlatList data={this.props.visits} renderItem={({item}) => <VisitSmall style={styles.styleVisitsList} visit={item} visitListClick={this.visitListClick} saveVisit={this._saveVisit} deleteVisit={this._deleteVisit}/>} keyExtractor={item => item.id}/>
-            </ScrollView>
+            <FlatList data={this.props.visits} renderItem={({item}) => <VisitSmall style={styles.styleVisitsList} visit={item} visitListClick={this.visitListClick} saveVisit={this._saveVisit} deleteVisit={this._deleteVisit}/>} keyExtractor={item => item.id}/>
         );
     }
 }
