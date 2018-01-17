@@ -3,16 +3,12 @@ import VisitsList from './VisitsList';
 import Load from './Load';
 import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
-var visitsReal = [];
-
-var params = "";
-
 export default class ListScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visit: "",
-      visits: visitsReal,
+      visits: [],
       texto: "Visita seleccionada: ",
       showCrm: false,
       showSaved: false,
@@ -60,7 +56,7 @@ export default class ListScreen extends React.Component {
       return;
     }
     let req = new XMLHttpRequest();
-    var url = "https://dcrmt.herokuapp.com/api/visits/flattened?token=ea014460d8c1df1805b7"+params;
+    var url = "https://dcrmt.herokuapp.com/api/visits/flattened?token=ea014460d8c1df1805b7";
     req.onreadystatechange = () => {
       if (req.readyState === 4) {
         if (req.status === 200) {
@@ -83,7 +79,6 @@ export default class ListScreen extends React.Component {
     let visits = [];
     AsyncStorage.getAllKeys((err, keys) => {
       if (keys.length === 0) {
-        console.log("Claves: ", keys);
         alert("No hay visitas guardadas");
       } else {
         AsyncStorage.multiGet(keys, (err, stores) => {
@@ -139,7 +134,6 @@ export default class ListScreen extends React.Component {
 
   async _deleteVisit(visit) {
     let key = '@P7_2017_IWEB:visits/'+visit.id;
-    console.log("Clave en eliminar: ", key);
     try {
         let visit = await AsyncStorage.getItem(key);
         if (visit === null) {
@@ -148,7 +142,6 @@ export default class ListScreen extends React.Component {
             try {
                 await AsyncStorage.removeItem(key).then(() => {
                   alert("Visita eliminada")
-                  console.log(key);
                   if (this.state.showSaved) {
                     this.setState({
                       showSaved: false
@@ -168,10 +161,9 @@ export default class ListScreen extends React.Component {
   }
 
   visitClick(visita) {
-    console.log('Se pulsa en una visita');
     this.setState({
       visit: visita,
-      visits: visitsReal,
+      visits: this.state.visits,
       texto: "Visita seleccionada: "+visita.id
     });
     this.props.navigation.navigate('Visit', { visit: visita, visits: this.state.visits });

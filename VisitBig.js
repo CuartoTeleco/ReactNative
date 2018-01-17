@@ -11,11 +11,6 @@ export default class VisitBig extends React.Component {
         }
     }
 
-    //favClick() {
-    //    console.log("Componente: ",this.props.navigation.state.params.visit.id);
-    //    this.props.navigation.state.params.favClick(this.props.navigation.state.params.visit);
-    //}
-
     render() {
         if (this.props.navigation.state.params.visit.favourite) {
             imagen = <Image style={{height: 60, width: 60}} source={require("./assets/images/fav.png")}></Image>;
